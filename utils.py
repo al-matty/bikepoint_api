@@ -135,3 +135,12 @@ def push_to_s3(data_dir: str = "data") -> None:
             logger.error(f"Error uploading {f}: {e}")
             raise e
 
+
+def wipe_local(data_dir: str) -> None:
+    """Delete all files in the specified directory."""
+    files = [f for f in os.listdir(data_dir) if os.path.isfile(os.path.join(data_dir, f))]
+    for f in files:
+        os.remove(os.path.join(data_dir, f))
+    logger.info(f"Wiped {len(files)} files from {data_dir}")
+    print(f"Wiped {len(files)} files from {data_dir}")
+

@@ -7,11 +7,12 @@ Logging is configured to output to a file in the logs/ directory.
 
 import time
 import logging
-#import os
+import os
 from dotenv import load_dotenv
 #from datetime import datetime, timedelta
 from logging_config import setup_logging
 #from utils import unzip
+from utils import wipe_local
 from utils import fetch, write_to_local, push_to_s3
 
 # Load .env file
@@ -62,3 +63,6 @@ time.sleep(3)
 
 # Upload to S3
 push_to_s3(data_outpath)
+
+# Wipe the local data folder
+wipe_local(data_outpath)
