@@ -5,6 +5,7 @@ Utility functions for the Amplitude data export pipeline.
 import json
 import logging
 import requests
+import boto3
 import os
 import sys
 import time
@@ -12,8 +13,18 @@ import io
 import gzip
 import zipfile
 from datetime import datetime
+from dotenv import load_dotenv
 
+
+load_dotenv()
 logger = logging.getLogger(__name__)
+
+# Initialize S3 client
+s3_client = boto3.client(
+    "s3",
+    aws_access_key_id=os.getenv("AWS_USER_ACCESS_KEY"),
+    aws_secret_access_key=os.getenv("AWS_USER_SECRET_ACCESS_KEY"),
+)
 
 
 def unzip(data: bytes) -> list[dict]:
@@ -94,3 +105,33 @@ def write_to_local(events: list[dict], outpath: str, outfile: str) -> None:
         json.dump(events, f, indent=2)
     logger.info("File saved successfully")
     print(f"Saved to {filename}")
+
+
+def push_to_s3(data_dir: str = "data") -> None:
+    """Upload all JSON files from data directory to S3."""
+    bucket = os.getenv("BUCKET")
+
+    try:
+        # Test S3 connection
+        buckets_list = s3_client.list_buckets()
+        logger.info(f"Connected to S3 successfully (seeing {len(buckets_list['Buckets'])} buckets).")
+    except Exception:
+        error_msg = "Could not list S3 buckets. Check your AWS credentials."
+        print(error_msg)
+        logger.error(error_msg)
+        sys.exit(1)
+
+    # Get all JSON files
+    files = [f for f in os.listdir(data_dir) if f.endswith('.json')]
+    logger.info(f"Got {len(files)} JSON files from local.")
+
+    # Upload each file
+    for f in files:
+        file_path = os.path.join(data_dir, f)
+        try:
+            s3_client.upload_file(file_path, bucket, f)
+            logger.info(f"Uploaded {f} to s3://{bucket}/{f}")
+        except Exception as e:
+            logger.error(f"Error uploading {f}: {e}")
+            raise e
+

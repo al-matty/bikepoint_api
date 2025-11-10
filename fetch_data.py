@@ -5,13 +5,14 @@ Data goes to the data/ directory as JSON files named with timestamps.
 Logging is configured to output to a file in the logs/ directory.
 """
 
+import time
 import logging
 #import os
 from dotenv import load_dotenv
 #from datetime import datetime, timedelta
 from logging_config import setup_logging
 #from utils import unzip
-from utils import fetch, write_to_local
+from utils import fetch, write_to_local, push_to_s3
 
 # Load .env file
 load_dotenv()
@@ -55,3 +56,9 @@ print(f"Parsed {len(events)} events")
 
 # Write to local file
 write_to_local(events, data_outpath, data_outfile)
+
+# Wait a moment to ensure file is closed
+time.sleep(3)
+
+# Upload to S3
+push_to_s3(data_outpath)

@@ -3,6 +3,7 @@ __pycache__/
 *.py[codz]
 *$py.class
 /data
+load_s3.py
 
 # C extensions
 *.so
