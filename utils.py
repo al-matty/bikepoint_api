@@ -143,4 +143,3 @@ def wipe_local(data_dir: str) -> None:
         os.remove(os.path.join(data_dir, f))
     logger.info(f"Wiped {len(files)} files from {data_dir}")
     print(f"Wiped {len(files)} files from {data_dir}")
-
