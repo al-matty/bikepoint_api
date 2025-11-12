@@ -1,6 +1,6 @@
 # REST API to S3 ETL Pipeline
 
-Exemplary automated ETL (Extract, Transform, Load) pattern, fetching from an API endpoint and pushing to an S3 bucket. Out of the box it is configured for the free London bike point data endpoint (TfL API). Use it to fetch from another API by changing the url value in [main.py](main.py). The fetching comes with logs, error handling and retry logic.
+Production-ready ETL (Extract, Transform, Load) pattern, fetching from an API endpoint and pushing to an S3 bucket. Out of the box it is configured for the free London bike point data endpoint (TfL API). Use it to fetch from another API by changing the url value in [main.py](main.py). The fetching comes with logs, error handling and retry logic.
 
 ![Pipeline Diagram](diagram.png)
 
