@@ -28,7 +28,7 @@ tasks:
     #     - echo "{{ secret('AWS_USER_ACCESS_KEY') }}"
     - id: clone
       type: io.kestra.plugin.git.Clone
-      url: https://github.com/al-matty/bikepoint_api
+      url: https://github.com/al-matty/rest-api-to-s3-pipe
       branch: main
       username: "{{ secret('GITHUB_USER') }}"
       password: "{{ secret('GITHUB_PAT') }}"

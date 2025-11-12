@@ -16,7 +16,7 @@ TfL API → Fetch → Local Storage → S3 Upload → Local Cleanup
 ### Repo Structure
 
 ```
-bikepoint_api/
+rest-api-to-s3-pipe/
 ├── main.py                    # Main orchestration script
 ├── utils.py                   # Core utility functions
 ├── logging_config.py          # Logging setup
