@@ -19,6 +19,12 @@ from dotenv import load_dotenv
 load_dotenv()
 logger = logging.getLogger(__name__)
 
+# Initialize S3 client
+s3_client = boto3.client(
+    "s3",
+    aws_access_key_id=os.getenv("AWS_USER_ACCESS_KEY").strip("\n"),
+    aws_secret_access_key=os.getenv("AWS_USER_SECRET_ACCESS_KEY").strip("\n"),
+)
 
 def unzip(data: bytes) -> list[dict]:
     """Extract and parse gzipped JSON from zip bytes."""
@@ -112,13 +118,6 @@ def push_to_s3(data_dir: str = "data") -> None:
     #     print(error_msg)
     #     logger.error(error_msg)
     #     sys.exit(1)
-
-    # Initialize S3 client
-    s3_client = boto3.client(
-        "s3",
-        aws_access_key_id=os.getenv("AWS_USER_ACCESS_KEY").strip("\n"),
-        aws_secret_access_key=os.getenv("AWS_USER_SECRET_ACCESS_KEY").strip("\n"),
-    )
 
     # Get all JSON files
     files = [f for f in os.listdir(data_dir) if f.endswith('.json')]
