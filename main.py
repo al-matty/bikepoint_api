@@ -7,11 +7,8 @@ Logging is configured to output to a file in the logs/ directory.
 
 import time
 import logging
-import os
 from dotenv import load_dotenv
-#from datetime import datetime, timedelta
 from logging_config import setup_logging
-#from utils import unzip
 from utils import wipe_local
 from utils import fetch, write_to_local, push_to_s3
 
@@ -28,15 +25,6 @@ delay_seconds = 1
 
 # Set up logging
 setup_logging(log_outpath, log_level)
-
-# Get secrets from .env
-#api_key = os.getenv("AMP_API_KEY")
-#secret_key = os.getenv("AMP_SECRET_KEY")
-
-# Format the start and end time (YYYYMMDDTHH)
-#yesterday = datetime.now() - timedelta(days=1)
-#start_time = yesterday.strftime("%Y%m%dT00")
-#end_time = yesterday.strftime("%Y%m%dT23")
 
 # API endpoint is the EU residency server
 url = "https://api.tfl.gov.uk/BikePoint/"

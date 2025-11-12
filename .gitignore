@@ -10,6 +10,8 @@ load_s3.py
 docker/
 docker-compose.yml
 .DS_Store
+logs/
+claude.md
 
 # Distribution / packaging
 .Python
@@ -210,3 +212,6 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# Claude notes
+claude.md

@@ -73,7 +73,6 @@ def fetch(
         logger.info(f"Data fetched successfully (status {code})")
         #return response.content
         return response
-        #TODO: Change to dynamically take content or json
 
     # 5xx: Recursively call again after a delay
     elif str(code).startswith("5"):
