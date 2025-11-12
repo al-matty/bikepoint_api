@@ -19,13 +19,6 @@ from dotenv import load_dotenv
 load_dotenv()
 logger = logging.getLogger(__name__)
 
-# Initialize S3 client
-s3_client = boto3.client(
-    "s3",
-    aws_access_key_id=os.getenv("AWS_USER_ACCESS_KEY"),
-    aws_secret_access_key=os.getenv("AWS_USER_SECRET_ACCESS_KEY"),
-)
-
 
 def unzip(data: bytes) -> list[dict]:
     """Extract and parse gzipped JSON from zip bytes."""
@@ -120,6 +113,13 @@ def push_to_s3(data_dir: str = "data") -> None:
     #     logger.error(error_msg)
     #     sys.exit(1)
 
+    # Initialize S3 client
+    s3_client = boto3.client(
+        "s3",
+        aws_access_key_id=os.getenv("AWS_USER_ACCESS_KEY"),
+        aws_secret_access_key=os.getenv("AWS_USER_SECRET_ACCESS_KEY"),
+    )
+
     # Get all JSON files
     files = [f for f in os.listdir(data_dir) if f.endswith('.json')]
     logger.info(f"Got {len(files)} JSON files from local.")
@@ -133,6 +133,7 @@ def push_to_s3(data_dir: str = "data") -> None:
         except Exception as e:
             logger.error(f"Error uploading {f}: {e}")
             raise e
+        print("Uploaded files to S3 successfully.")
 
 
 def wipe_local(data_dir: str) -> None:
