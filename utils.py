@@ -48,7 +48,7 @@ def fetch(
     max_attempts: int = 5,
     n_attempts: int = 0,
 ) -> object:
-    """Fetch data from Amplitude API. Retry on server errors and rate limits."""
+    """Fetch data from REST API. Retry on server errors and rate limits."""
 
     n_attempts += 1
     print(f"Fetch attempt {n_attempts}...")
@@ -108,16 +108,7 @@ def write_to_local(events: list[dict], outpath: str, outfile: str) -> None:
 def push_to_s3(data_dir: str = "data") -> None:
     """Upload all JSON files from data directory to S3."""
     bucket = os.getenv("BUCKET")
-
-    # try:
-    #     # Test S3 connection
-    #     buckets_list = s3_client.list_buckets()
-    #     logger.info(f"Connected to S3 successfully (seeing {len(buckets_list['Buckets'])} buckets).")
-    # except Exception:
-    #     error_msg = "Could not list S3 buckets. Check your AWS credentials."
-    #     print(error_msg)
-    #     logger.error(error_msg)
-    #     sys.exit(1)
+    logger.info(f"Pushing files from {data_dir} to S3 bucket {bucket}")
 
     # Get all JSON files
     files = [f for f in os.listdir(data_dir) if f.endswith('.json')]
@@ -132,7 +123,7 @@ def push_to_s3(data_dir: str = "data") -> None:
         except Exception as e:
             logger.error(f"Error uploading {f}: {e}")
             raise e
-        print("Uploaded files to S3 successfully.")
+    print(f"Uploaded {len(files)} to S3.")
 
 
 def wipe_local(data_dir: str) -> None:
