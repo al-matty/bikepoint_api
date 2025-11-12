@@ -4,9 +4,12 @@ __pycache__/
 *$py.class
 /data
 load_s3.py
-
+.env_encoded_nov
 # C extensions
 *.so
+docker/
+docker-compose.yml
+.DS_Store
 
 # Distribution / packaging
 .Python
